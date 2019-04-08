@@ -36,4 +36,5 @@ before_install:
   - gcloud version
 
 install: true
-script: gcloud version
+script:
+  - gcloud version
