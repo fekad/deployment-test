@@ -1,0 +1,6 @@
+.idea/
+jupyterhub/
+
+
+# Environments
+.env

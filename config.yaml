@@ -1,0 +1,53 @@
+proxy:
+  secretToken: ''
+  https:
+    hosts:
+      - bigmax2019.ml
+    letsencrypt:
+      contactEmail: bigmax.workshop.2019@gmail.com
+
+auth:
+  type: dummy
+  dummy:
+    password: ''
+  whitelist:
+    users:
+      - admin
+      - test1
+      - test2
+
+  admin:
+    users:
+      - admin
+
+
+scheduling:
+  userScheduler:
+     enabled: true
+  podPriority:
+     enabled: true
+  userPlaceholder:
+     enabled: false
+     replicas: 0
+  userPods:
+    nodeAffinity:
+      matchNodePurpose: require
+
+singleuser:
+  cpu:
+    guarantee: 0.2
+  memory:
+    guarantee: 1G
+  storage:
+    capacity: 1Gi
+  image:
+    name: bigmaxworkshop2019/bigmax-workshop-2019
+    tag: aa942e1
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: ["cp", "-a", "-n", "/home/tutorials", "/home/jovyan/"]
+debug:
+  enabled: false
+
+
