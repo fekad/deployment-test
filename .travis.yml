@@ -21,7 +21,7 @@ cache:
     - $HOME/google-cloud-sdk
 
 before_install:
-  # The install script errors if this directory already exists,
+  # The install script errors if the directory already exists,
   # but Travis already creates it when we mark it as cached.
   - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
     rm -rf $HOME/google-cloud-sdk;
@@ -30,8 +30,8 @@ before_install:
 
   # This line is critical. We setup the SDK to take precedence in our
   # environment over the old SDK that is already on the machine.
-  - source $HOME/google-cloud-sdk/path.bash.inc
-  - gcloud components update kubectl
+  #  - source $HOME/google-cloud-sdk/path.bash.inc
+  #  - gcloud components update kubectl
   - gcloud version
 
 install: true
