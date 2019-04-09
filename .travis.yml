@@ -65,6 +65,7 @@ before_install:
 
   - ls -ltra .
   - ls -ltra ~/
+  - ls -ltra ~/bin
 
 install: true
 script:
