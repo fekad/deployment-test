@@ -1,16 +1,8 @@
 language: generic
-sudo: false
-
-branches:
-  only:
-    - master
-
 #services:
 #  - docker
-
 git:
   depth: 1
-
 env:
   global:
     # GCP names
@@ -23,12 +15,11 @@ env:
     - NAMESPACE=jhub
     # Do not prompt for user input when using any SDK methods.
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
-
-#cache:
-#  directories:
-#    # We cache the SDK so we don't have to download it again on subsequent builds.
-#    - $HOME/google-cloud-sdk/
-
+    - PATH=$PATH:$HOME/google-cloud-sdk/
+cache:
+  directories:
+    # We cache the SDK so we don't have to download it again on subsequent builds.
+    - $HOME/google-cloud-sdk/
 before_install:
   # The install script errors if the directory already exists,
   # but Travis already creates it when we mark it as cached.
@@ -49,7 +40,7 @@ before_install:
   - gcloud config set compute/zone $ZONE
   - gcloud config set container/cluster $CLUSTER
 
-  # Gcloud Authentication
+  # GCP authentication
   - openssl aes-256-cbc -K $encrypted_f3d3bac7371e_key -iv $encrypted_f3d3bac7371e_iv -in client-secret.json.enc -out client-secret.json -d
   - gcloud auth activate-service-account --key-file client-secret.json
   - gcloud container clusters get-credentials $CLUSTER
@@ -66,11 +57,12 @@ before_install:
   - ls -ltra .
   - ls -ltra ~/
   - ls -ltra ~/bin
+  - env
 
 install: true
 script:
   - gcloud container node-pools list
-  - helm upgrade --dry-run --debug --install $RELEASE jupyterhub/jupyterhub
+  - helm upgrade --dry-run --install $RELEASE jupyterhub/jupyterhub
     --namespace $NAMESPACE
     --version=0.8.0
     --set proxy.secretToken=$SECRET_TOKEN,auth.dummy.password=$USER_PASSWORD
