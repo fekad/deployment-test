@@ -1,6 +1,8 @@
 .idea/
 jupyterhub/
 
+# Secrets
+client-secret.json
 
 # Environments
 .env

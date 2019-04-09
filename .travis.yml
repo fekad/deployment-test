@@ -1,38 +1,58 @@
 language: generic
+sudo: false
 
 branches:
   only:
     - master
 
-services:
-  - docker
+#services:
+#  - docker
 
 git:
   depth: 1
 
 env:
   global:
+    - PROJECT_ID=bigmax
+    - ZONE=europe-west3-b
+    - RELEASE=jhub
+    - NAMESPACE=jhub
     # Do not prompt for user input when using any SDK methods.
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
 cache:
   directories:
     # We cache the SDK so we don't have to download it again on subsequent builds.
-    - $HOME/google-cloud-sdk
+    - $HOME/google-cloud-sdk/
 
 before_install:
   # The install script errors if the directory already exists,
   # but Travis already creates it when we mark it as cached.
-  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
-    rm -rf $HOME/google-cloud-sdk;
-    curl https://sdk.cloud.google.com | bash > /dev/null;
+  #- if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+  #  rm -rf $HOME/google-cloud-sdk;
+  #  curl https://sdk.cloud.google.com | bash > /dev/null;
+  #  fi
+  - if [ ! -d ${HOME}/google-cloud-sdk ]; then
+      curl https://sdk.cloud.google.com | bash;
     fi
 
-  # This line is critical. We setup the SDK to take precedence in our
-  # environment over the old SDK that is already on the machine.
-  #  - source $HOME/google-cloud-sdk/path.bash.inc
-  #  - gcloud components update kubectl
+  # We setup the SDK to take precedence in our environment over the old SDK that is already on the machine.
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components update kubectl
   - gcloud version
 
+  # Gcloud Authentication
+  - openssl aes-256-cbc -K $encrypted_f3d3bac7371e_key -iv $encrypted_f3d3bac7371e_iv -in client-secret.json.enc -out client-secret.json -d
+  - gcloud auth activate-service-account --key-file client-secret.json
+  - gcloud config set project $PROJECT_ID
+  - gcloud config set compute/zone $ZONE
+
 install: true
-script: skip
+script:
+  - gcloud container node-pools list
+  - helm upgrade --dry-run --debug --install $RELEASE jupyterhub/jupyterhub
+    --namespace $NAMESPACE
+    --version=0.8.0
+    --set proxy.secretToken=$SECRET_TOKEN
+    --set auth.dummy.password=$USER_PASSWORD
+    --values config.yaml
