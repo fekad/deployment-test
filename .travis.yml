@@ -1,6 +1,4 @@
 language: generic
-#services:
-#  - docker
 git:
   depth: 1
 env:
@@ -23,13 +21,13 @@ cache:
 before_install:
   # The install script errors if the directory already exists,
   # but Travis already creates it when we mark it as cached.
-  #- if [ ! -d $HOME/google-cloud-sdk/bin ]; then
-  #  rm -rf $HOME/google-cloud-sdk;
-  #  curl https://sdk.cloud.google.com | bash > /dev/null;
-  #  fi
-  - if [ ! -d ${HOME}/google-cloud-sdk ]; then
-    curl https://sdk.cloud.google.com | bash  > /dev/null;
+  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+    rm -rf $HOME/google-cloud-sdk;
+    curl https://sdk.cloud.google.com | bash > /dev/null;
     fi
+  #- if [ ! -d ${HOME}/google-cloud-sdk ]; then
+  #  curl https://sdk.cloud.google.com | bash  > /dev/null;
+  #  fi
 
   # We setup the SDK to take precedence in our environment over the old SDK that is already on the machine.
   - source $HOME/google-cloud-sdk/path.bash.inc
@@ -52,16 +50,8 @@ before_install:
   - helm repo update
   - helm version
 
-  - helm list
-
-  - ls -ltra .
-  - ls -ltra ~/
-  - ls -ltra ~/bin
-  - env
-
 install: true
 script:
-  - gcloud container node-pools list
   - helm upgrade --dry-run --install $RELEASE jupyterhub/jupyterhub
     --namespace $NAMESPACE
     --version=0.8.0
