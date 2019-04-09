@@ -37,12 +37,20 @@ before_install:
   #  curl https://sdk.cloud.google.com | bash > /dev/null;
   #  fi
   - if [ ! -d ${HOME}/google-cloud-sdk ]; then
-      curl https://sdk.cloud.google.com | bash;
+    curl https://sdk.cloud.google.com | bash;
     fi
 
   # We setup the SDK to take precedence in our environment over the old SDK that is already on the machine.
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
+
+  # Installing helm
+  #- curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+  - gcloud components update helm
+  - helm init --client-only
+  - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart
+  - helm repo update
+
   - gcloud version
 
   - gcloud config set project $PROJECT_ID
@@ -54,11 +62,9 @@ before_install:
   - gcloud auth activate-service-account --key-file client-secret.json
   - gcloud container clusters get-credentials $CLUSTER
 
-  # Installinf helm
-  - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
-  - helm init --client-only
-  - helm repo add jupyterhub https://jupyterhub.github.io/helm-chart
-  - helm repo update  - helm version
+
+  - helm version
+
 
 install: true
 script:
