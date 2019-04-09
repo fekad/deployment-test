@@ -61,6 +61,10 @@ before_install:
   - helm repo update
   - helm version
 
+  - helm list
+
+  - ls -ltra .
+  - ls -ltra ~/
 
 install: true
 script:
@@ -68,6 +72,5 @@ script:
   - helm upgrade --dry-run --debug --install $RELEASE jupyterhub/jupyterhub
     --namespace $NAMESPACE
     --version=0.8.0
-    --set proxy.secretToken=$SECRET_TOKEN
-    --set auth.dummy.password=$USER_PASSWORD
+    --set proxy.secretToken=$SECRET_TOKEN,auth.dummy.password=$USER_PASSWORD
     --values config.yaml
