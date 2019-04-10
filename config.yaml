@@ -12,13 +12,25 @@ auth:
     password: ''
   whitelist:
     users:
-      - admin
+      - adam
+      - luca
+      - angelo
+      - emre
       - test1
       - test2
+      - imprs1
+      - imprs2
+      - imprs3
+      - imprs4
+      - imprs5
+      - imprs6
 
   admin:
     users:
-      - admin
+      - adam
+      - luca
+      - angelo
+      - emre
 
 
 scheduling:
