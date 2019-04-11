@@ -92,6 +92,11 @@ singleuser:
     postStart:
       exec:
         command: ["cp", "-a", "-n", "/home/tutorials", "/home/jovyan/"]
+
+prePuller:
+  continuous:
+    enabled: true
+    
 debug:
   enabled: false
 
