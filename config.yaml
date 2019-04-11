@@ -16,6 +16,7 @@ auth:
       - luca
       - angelo
       - emre
+      - andreas
       - test1
       - test2
       - imprs1
@@ -24,6 +25,37 @@ auth:
       - imprs4
       - imprs5
       - imprs6
+      - bigmax01
+      - bigmax02
+      - bigmax03
+      - bigmax04
+      - bigmax05
+      - bigmax06
+      - bigmax07
+      - bigmax08
+      - bigmax09
+      - bigmax10
+      - bigmax11
+      - bigmax12
+      - bigmax13
+      - bigmax14
+      - bigmax15
+      - bigmax16
+      - bigmax17
+      - bigmax18
+      - bigmax19
+      - bigmax20
+      - bigmax21
+      - bigmax22
+      - bigmax23
+      - bigmax24
+      - bigmax25
+      - bigmax26
+      - bigmax27
+      - bigmax28
+      - bigmax29
+      - bigmax30
+
 
   admin:
     users:
@@ -31,6 +63,7 @@ auth:
       - luca
       - angelo
       - emre
+      - andreas
 
 
 scheduling:
@@ -47,14 +80,14 @@ scheduling:
 
 singleuser:
   cpu:
-    guarantee: 0.2
+    guarantee: 0.9
   memory:
     guarantee: 1G
   storage:
     capacity: 1Gi
   image:
     name: bigmaxworkshop2019/bigmax-workshop-2019
-    tag: aa942e1
+    tag: b25e135
   lifecycleHooks:
     postStart:
       exec:
