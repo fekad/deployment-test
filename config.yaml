@@ -80,7 +80,7 @@ scheduling:
 
 singleuser:
   cpu:
-    guarantee: 0.9
+    guarantee: 0.2
   memory:
     guarantee: 1G
   storage:
