@@ -57,3 +57,4 @@ script:
     --version=0.8.0
     --set proxy.secretToken=$SECRET_TOKEN,auth.dummy.password=$USER_PASSWORD
     --values config.yaml
+    
