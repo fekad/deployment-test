@@ -39,7 +39,8 @@ before_install:
   - gcloud config set container/cluster $CLUSTER
 
   # GCP authentication
-  - base64 --decode $CLIENTSECRET > client-secret.json
+  - ecoh $CLIENTSECRET > client-secret.json.base64
+  - base64 --decode client-secret.json.base64 > client-secret.json
   - gcloud auth activate-service-account --key-file client-secret.json
   - gcloud container clusters get-credentials $CLUSTER
 
