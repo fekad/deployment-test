@@ -39,7 +39,7 @@ before_install:
   - gcloud config set container/cluster $CLUSTER
 
   # GCP authentication
-  - openssl aes-256-cbc -K $encrypted_f3d3bac7371e_key -iv $encrypted_f3d3bac7371e_iv -in client-secret.json.enc -out client-secret.json -d
+  - echo $CLIENTSECRET | base64 -d > client-secret.json
   - gcloud auth activate-service-account --key-file client-secret.json
   - gcloud container clusters get-credentials $CLUSTER
 
